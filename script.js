@@ -14,10 +14,14 @@ function updateStrengthFormula() {
 }
 
 function addModifier() {
-    const modifiersDiv = document.getElementById('modifiers');
-    const newModifier = document.createElement('div');
-    newModifier.textContent = 'New Modifier';
-    modifiersDiv.appendChild(newModifier);
+    const itemName = prompt("Enter item name:");
+    const strengthValue = prompt("Enter strength modification value:");
+    if (itemName && strengthValue) {
+        const modifiersDiv = document.getElementById('modifiers');
+        const newModifier = document.createElement('div');
+        newModifier.textContent = `${itemName}: ${strengthValue}`;
+        modifiersDiv.appendChild(newModifier);
+    }
 }
 
 function addEquipment() {
@@ -30,17 +34,52 @@ function addEquipment() {
     const slotsCell = newRow.insertCell(4);
     const actionCell = newRow.insertCell(5);
 
-    itemCell.textContent = 'New Item';
-    weightCell.textContent = '0';
-    quantityCell.textContent = '1';
-    priceCell.textContent = '0';
-    slotsCell.textContent = '0';
+    const itemInput = document.createElement('input');
+    itemInput.type = 'text';
+    itemInput.value = 'New Item';
+    itemCell.appendChild(itemInput);
+
+    const weightInput = document.createElement('input');
+    weightInput.type = 'number';
+    weightInput.value = '0';
+    weightInput.oninput = updateSlots;
+    weightCell.appendChild(weightInput);
+
+    const quantityInput = document.createElement('input');
+    quantityInput.type = 'number';
+    quantityInput.value = '1';
+    quantityCell.appendChild(quantityInput);
+
+    const priceInput = document.createElement('input');
+    priceInput.type = 'number';
+    priceInput.value = '0';
+    priceInput.readOnly = true;
+    priceCell.appendChild(priceInput);
+
+    const slotsInput = document.createElement('input');
+    slotsInput.type = 'number';
+    slotsInput.value = '0';
+    slotsInput.readOnly = true;
+    slotsCell.appendChild(slotsInput);
+
     const deleteButton = document.createElement('button');
     deleteButton.textContent = 'Delete';
     deleteButton.addEventListener('click', function() {
         table.deleteRow(newRow.rowIndex - 1);
     });
     actionCell.appendChild(deleteButton);
+
+    updateSlots();
+}
+
+function updateSlots() {
+    const table = document.getElementById('equipmentTable').getElementsByTagName('tbody')[0];
+    for (let i = 0; i < table.rows.length; i++) {
+        const row = table.rows[i];
+        const weight = parseFloat(row.cells[1].getElementsByTagName('input')[0].value);
+        const slots = Math.ceil(weight / 100);
+        row.cells[4].getElementsByTagName('input')[0].value = slots;
+    }
 }
 
 function saveCharacterToXML() {
@@ -53,11 +92,11 @@ function saveCharacterToXML() {
     for (let i = 0; i < equipmentTable.rows.length; i++) {
         const row = equipmentTable.rows[i];
         equipmentData.push({
-            item: row.cells[0].textContent,
-            weight: row.cells[1].textContent,
-            quantity: row.cells[2].textContent,
-            price: row.cells[3].textContent,
-            slots: row.cells[4].textContent
+            item: row.cells[0].getElementsByTagName('input')[0].value,
+            weight: row.cells[1].getElementsByTagName('input')[0].value,
+            quantity: row.cells[2].getElementsByTagName('input')[0].value,
+            price: row.cells[3].getElementsByTagName('input')[0].value,
+            slots: row.cells[4].getElementsByTagName('input')[0].value
         });
     }
 
@@ -109,3 +148,23 @@ function jsonToXml(json) {
 
     return xml;
 }
+
+// Secret button to show/hide the price list
+document.addEventListener('DOMContentLoaded', function() {
+    const secretButton = document.createElement('button');
+    secretButton.textContent = 'Toggle Price List';
+    secretButton.style.display = 'none';
+    secretButton.addEventListener('click', function() {
+        const priceInputs = document.querySelectorAll('#equipmentTable input[type="number"][readonly]');
+        priceInputs.forEach(input => {
+            input.style.display = input.style.display === 'none' ? '' : 'none';
+        });
+    });
+    document.body.appendChild(secretButton);
+
+    document.addEventListener('keydown', function(event) {
+        if (event.ctrlKey && event.key === 'p') {
+            secretButton.style.display = secretButton.style.display === 'none' ? '' : 'none';
+        }
+    });
+});
