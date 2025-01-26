@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D&D Character Equipment Weight Calculator</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header mb-3">
+            <h1>D&D Character Equipment Weight Calculator</h1>
+            <p>Version: <span id="version">1.0.0</span></p>
+        </header>
+
+        <!-- Text Size Controls -->
+        <div class="text-size-controls mb-3">
+            <button onclick="increaseTextSize()">A+</button>
+            <button onclick="decreaseTextSize()">A-</button>
+        </div>
+
+        <!-- Name and Race Fields -->
+        <div class="name-race-container mb-3">
+            <div class="name-field">
+                <label for="characterName">Character Name:</label>
+                <input type="text" id="characterName" placeholder="Enter character name" class="form-control" required>
+            </div>
+            <div class="race-field">
+                <label for="characterRace">Character Race:</label>
+                <input type="text" id="characterRace" placeholder="Enter character race" class="form-control" required>
+            </div>
+        </div>
+
+        <!-- Strength Input -->
+        <label for="strength">Character Strength:</label>
+        <input type="number" id="strength" name="strength" oninput="updateStrengthFormula()" class="form-control mb-2" required>
+        <span id="strengthFormula">Strength: 0</span><br>
+        <div id="modifiers" class="mb-3"></div>
+        <button onclick="addModifier()" class="btn btn-primary mb-3">Add Strength Modifier</button>
+
+        <!-- Equipment Table -->
+        <h3>Equipment</h3>
+        <table id="equipmentTable">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Weight (Gold Pieces)</th>
+                    <th>Quantity</th>
+                    <th>Price (gp)</th>
+                    <th>Slots</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <button onclick="addEquipment()" class="btn btn-secondary mb-3">Add Equipment</button>
+
+        <!-- Result Display -->
+        <div id="result" class="mb-3"></div>
+
+        <!-- Save and Print Buttons -->
+        <div class="button-container mb-3">
+            <button onclick="saveCharacterToXML()" class="btn btn-success">Save Character Data</button>
+            <button onclick="printCharacterSheet()" class="btn btn-info">Print Character Sheet</button>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <p class="text-center">D&D Character Equipment Weight Calculator - Version <span id="footerVersion">1.0.0</span></p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Custom JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
