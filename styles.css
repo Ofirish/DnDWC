@@ -1,0 +1,205 @@
+/* General body styling */
+body {
+    font-family: 'Georgia', serif;
+    background-color: #8B4513; /* Brown background */
+    background-image: url('https://www.transparenttextures.com/patterns/leather.png'); /* Leather texture */
+    color: #000000; /* Black text */
+    padding: 20px;
+    font-size: 16px; /* Base font size */
+}
+
+/* Headings */
+h2 {
+    text-align: center; /* Center the header text */
+    margin-top: 0; /* Remove default margin at the top */
+    padding-top: 20px; /* Add some padding at the top */
+    color: #FFD700; /* Gold text */
+    text-shadow: 2px 2px 4px #000000; /* Text shadow for a rustic feel */
+    font-size: 2rem; /* Larger font size */
+}
+
+/* Container styling */
+.container {
+    background-color: rgba(210, 180, 140, 0.9); /* Light brown with transparency */
+    border-radius: 15px; /* Rounded corners */
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Shadow for depth */
+    max-width: 100%;
+    overflow-x: auto; /* Prevent horizontal overflow */
+}
+
+/* Inputs, buttons, and tables */
+input, button, table {
+    border-radius: 10px; /* Rounded corners for inputs and buttons */
+}
+
+input {
+    background-color: #F5DEB3; /* Wheat-colored input fields */
+    border: 1px solid #8B4513; /* Brown border */
+    padding: 8px;
+    width: 100%; /* Full width for inputs */
+}
+
+button {
+    background-color: #A0522D; /* Sienna brown buttons */
+    color: #FFD700; /* Gold text */
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 5px; /* Spacing between buttons */
+}
+
+button:hover {
+    background-color: #8B4513; /* Darker brown on hover */
+}
+
+/* Table styling */
+table {
+    width: 100%;
+    background-color: #F5DEB3; /* Wheat-colored table */
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    overflow-x: auto; /* Prevent table overflow */
+    display: block; /* Make tables scrollable */
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #8B4513; /* Brown borders */
+}
+
+th {
+    background-color: #A0522D; /* Sienna brown headers */
+    color: #FFD700; /* Gold text */
+}
+
+td {
+    color: #000000; /* Black text for better visibility */
+}
+
+/* Collapsible CEL Buttons */
+.cel-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.cel-buttons button.collapsible {
+    background-color: #A0522D; /* Sienna brown */
+    color: #FFD700; /* Gold text */
+    cursor: pointer;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    text-align: left;
+    outline: none;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    flex: 1 1 auto; /* Allow buttons to grow and shrink */
+}
+
+.cel-buttons button.collapsible:hover {
+    background-color: #8B4513; /* Darker brown on hover */
+}
+
+.cel-buttons button.collapsible.active {
+    background-color: #8B4513; /* Darker brown when active */
+}
+
+/* Collapsible Content */
+.cel-content .content {
+    display: none;
+    overflow: hidden;
+    background-color: rgba(245, 222, 179, 0.9); /* Wheat-colored with transparency */
+    border-radius: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+.cel-content .content.active {
+    display: block;
+}
+
+/* Footer styles */
+.footer {
+    background-color: #A0522D; /* Sienna brown */
+    color: #FFD700; /* Gold text */
+    padding: 10px 0;
+    text-align: center;
+    border-top: 2px solid #8B4513; /* Dark brown border */
+    margin-top: 20px; /* Space above the footer */
+    font-family: 'Georgia', serif;
+    font-size: 14px;
+}
+
+.footer p {
+    margin: 0; /* Remove default margin */
+}
+
+@media (max-width: 768px) {
+    .footer {
+        font-size: 12px; /* Smaller font size on small screens */
+        padding: 8px 0;
+    }
+}
+
+/* Add this CSS for the name and race fields */
+.name-race-container {
+    display: flex;
+    gap: 20px; /* Space between the fields */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+
+.name-field, .race-field {
+    flex: 1; /* Each field takes equal space */
+    min-width: 200px; /* Minimum width to prevent squeezing */
+}
+
+.name-field label, .race-field label {
+    display: block; /* Ensure labels are above the inputs */
+    margin-bottom: 5px;
+    color: #FFD700; /* Gold text for labels */
+    text-shadow: 1px 1px 2px #000000; /* Text shadow for a rustic feel */
+}
+
+.name-field input, .race-field input {
+    width: 100%; /* Full width for inputs */
+}
+
+/* Add this CSS for the button container */
+.button-container {
+    display: flex;
+    gap: 10px; /* Space between the buttons */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+
+.button-container button {
+    flex: 1; /* Each button takes equal space */
+    min-width: 150px; /* Minimum width to prevent squeezing */
+}
+
+/* Ensure the table and its columns are visible */
+#equipmentTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+#equipmentTable th, #equipmentTable td {
+    padding: 10px;
+    border: 1px solid #8B4513; /* Brown borders */
+    text-align: left;
+}
+
+#equipmentTable th {
+    background-color: #A0522D; /* Sienna brown headers */
+    color: #FFD700; /* Gold text */
+}
+
+#equipmentTable td {
+    background-color: #F5DEB3; /* Wheat-colored cells */
+    color: #000000; /* Black text */
+}

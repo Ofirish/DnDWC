@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D&D Character Equipment Weight Calculator</title>
+    <!-- Bootstrap CSS for improved UI/UX -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Page Header -->
+        <h2>D&D Character Equipment Weight Calculator</h2>
+        <!-- Text size controls -->
+        <div class="text-size-controls">
+            <button onclick="increaseTextSize()">A+</button>
+            <button onclick="decreaseTextSize()">A-</button>
+        </div>
+        <!-- Name and Race fields -->
+        <div class="name-race-container mb-3">
+            <div class="name-field">
+                <label for="characterName">Character Name:</label>
+                <input type="text" id="characterName" placeholder="Enter character name" class="form-control">
+            </div>
+            <div class="race-field">
+                <label for="characterRace">Character Race:</label>
+                <input type="text" id="characterRace" placeholder="Enter character race" class="form-control">
+            </div>
+        </div>
+
+        <!-- Save and Load buttons -->
+        <button onclick="saveCharacterToXML()" class="btn btn-success mb-3">Save Character</button>
+        <input type="file" id="loadCharacterFile" onchange="loadCharacterFromXML(this)" style="display: none;">
+        <label for="loadCharacterFile" class="btn btn-warning mb-3">Load Character</label>
+
+        <!-- Save and Load CEL buttons -->
+        <button onclick="saveCELToFile()" class="btn btn-success mb-3">Save CEL</button>
+        <input type="file" id="loadCELFile" onchange="loadCELFromFile(this)" style="display: none;">
+        <label for="loadCELFile" class="btn btn-warning mb-3">Load CEL</label>
+
+<!-- Exchange Rates Table -->
+<div class="exchange-rates-table mb-3">
+    <h4>Exchange Rates</h4>
+    <table>
+        <thead>
+            <tr>
+                <th>Custom System</th>
+                <th>Classic System</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>10 gp = 1 lb</td>
+                <td>10 gp = 1 lb</td>
+            </tr>
+            <tr>
+                <td>100 gp = 1 slot</td>
+                <td>No Slots</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+        <!-- Input for character strength -->
+        <label for="strength">Character Strength:</label>
+        <input type="number" id="strength" name="strength" oninput="updateStrengthFormula()" class="form-control mb-2">
+        <span id="strengthFormula">Strength: 0</span><br>
+        <div id="modifiers" class="mb-3"></div>
+
+        <!-- Button to add strength modifier -->
+        <button onclick="addModifier()" class="btn btn-primary mb-3">Add Strength Modifier</button>
+
+<!-- Equipment Table -->
+        <h3>Equipment</h3>
+        <table id="equipmentTable">
+            <tr>
+                <th>Item</th>
+                <th>Weight (Gold Pieces)</th>
+                <th>Quantity</th>
+                <th>Slots</th>
+                <th>Action</th>
+            </tr>
+        </table>
+        <button onclick="addEquipment()" class="btn btn-secondary mb-3">Add Equipment</button><br>
+
+<!-- Buttons for Calculate Total Weight and Toggle System -->
+<div class="button-container mb-3">
+    <button onclick="calculateWeight()" class="btn btn-primary">Calculate Total Weight</button>
+    <button id="toggleSystemButton" onclick="toggleSystem()" class="btn btn-info">Show Classic System</button>
+</div>
+        <!-- Show Results Area -->
+        <p id="result" class="mb-3"></p>
+
+        <!-- Add Common Equipment Form -->
+        <div class="mb-3">
+            <input type="text" id="newItemName" placeholder="Item Name" class="form-control mb-2">
+            <input type="number" id="newItemWeight" placeholder="Weight (Gold Pieces)" class="form-control mb-2">
+            <label for="newItemCategory">Item Category:</label>
+            <select id="newItemCategory" class="form-control mb-2">
+                <option value="weapons">Weapons</option>
+                <option value="armor">Armor</option>
+                <option value="ammunition">Ammunition</option>
+                <option value="utilities">Utilities</option>
+                <option value="coins">Coins</option>
+                <option value="gems">Gems</option>
+                <option value="misc">Misc</option>
+            </select>
+            <button onclick="addCommonEquipment()" class="btn btn-sm btn-success">Add to Common Equipment</button>
+        </div>
+
+        <!-- Collapsible CEL Tables -->
+        <div class="cel-buttons">
+            <button type="button" class="collapsible">Weapons</button>
+            <button type="button" class="collapsible">Armor</button>
+            <button type="button" class="collapsible">Ammunition</button>
+            <button type="button" class="collapsible">Utilities</button>
+            <button type="button" class="collapsible">Coins</button>
+            <button type="button" class="collapsible">Gems</button>
+            <button type="button" class="collapsible">Misc</button>
+        </div>
+
+        <div class="cel-content">
+            <!-- Weapons Table -->
+            <div class="content">
+                <table id="weaponsTable" class="cel-table">
+                    <tr>
+                        <th>Item</th>
+                        <th>Weight (Gold Pieces)</th>
+                        <th>Action</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Armor Table -->
+            <div class="content">
+                <table id="armorTable" class="cel-table">
+                    <tr>
+                        <th>Item</th>
+                        <th>Weight (Gold Pieces)</th>
+                        <th>Action</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Ammunition Table -->
+            <div class="content">
+                <table id="ammunitionTable" class="cel-table">
+                    <tr>
+                        <th>Item</th>
+                        <th>Weight (Gold Pieces)</th>
+                        <th>Action</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Utilities Table -->
+            <div class="content">
+                <table id="utilitiesTable" class="cel-table">
+                    <tr>
+                        <th>Item</th>
+                        <th>Weight (Gold Pieces)</th>
+                        <th>Action</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Coins Table -->
+            <div class="content">
+                <table id="coinsTable" class="cel-table">
+                    <tr>
+                        <th>Item</th>
+                        <th>Weight (Gold Pieces)</th>
+                        <th>Action</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Gems Table -->
+            <div class="content">
+                <table id="gemsTable" class="cel-table">
+                    <tr>
+                        <th>Item</th>
+                        <th>Weight (Gold Pieces)</th>
+                        <th>Action</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Misc Table -->
+            <div class="content">
+                <table id="miscTable" class="cel-table">
+                    <tr>
+                        <th>Item</th>
+                        <th>Weight (Gold Pieces)</th>
+                        <th>Action</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Clear User Data Button -->
+        <button onclick="clearUserData()" class="btn btn-warning mb-3">Clear User Data</button>
+
+        <!-- Clear All Data Button -->
+        <button onclick="clearAllData()" class="btn btn-danger mb-3">Clear All Data</button>
+
+        <!-- Repopulate CEL Button -->
+        <button onclick="repopulateCEL()" class="btn btn-info mb-3">Repopulate CEL</button>
+        <!-- Add the print button -->
+        <button onclick="printCharacterSheet()" class="btn btn-primary mb-3">Print Character Sheet</button>
+    </div>
+
+    <!-- Footer with version and copyright -->
+    <footer class="footer">
+        <div class="container">
+            <p class="text-center"></p>
+        </div>
+    </footer>
+
+    <!-- Custom JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
